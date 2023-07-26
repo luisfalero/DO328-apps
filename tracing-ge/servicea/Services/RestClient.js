@@ -18,7 +18,7 @@ module.exports = class RestClient {
         });
         span.setTag(Tags.HTTP_METHOD, "GET");
         span.setTag(Tags.HTTP_URL, url);
-        span.setTag(Tags.PEER_HOSTNAME, thos.baseURL);
+        span.setTag(Tags.PEER_HOSTNAME, this.baseURL);
         span.setTag(Tags.SPAN_KIND, Tags.SPAN_KIND_RPC_CLIENT);
 
         try {
