@@ -14,6 +14,10 @@ function create(logger, tracer) {
     async function traceRequest(request) {
         const { method, originalUrl } = request.raw;
         // TODO: Create a new root span and add opentracing tags
+        const name = method + ":servicea";
+        const span = tracer.startSpan(name);
+        span.setTag(Opentracing.Tags.HTTP_URL, originalUrl);
+        span.setTag(Opentracing.Tags.HTTP_METHOD, method);
         request.rootSpan = span;
     }
 
