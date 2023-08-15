@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: product
+    version: v1
+  name: product
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product
+      version: v1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: product
+        version: v1
+      annotations:
+        sidecar.istio.io/inject: "true"
+        prometheus.io/scheme: "http"
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+    spec:
+      containers:
+        - image: quay.io/rh_ee_lfalero/ossm-metrics-product:1.0
+          name: product
+          resources: {}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          imagePullPolicy: Always
+status: {}

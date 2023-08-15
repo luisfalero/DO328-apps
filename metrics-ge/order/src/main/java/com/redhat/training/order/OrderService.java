@@ -25,6 +25,21 @@ public class OrderService {
     // 2. Add a simple timer to track the response time
     // 3. Add a meter to track the rate of order placement
 
+    @SimplyTimed(
+        name="order_svc:order_response_time",
+        description="Add a simple timer to track the response time",
+        unit=MetricUnits.MILLISECONDS
+    )
+    @Counted(
+        name="order_svc:order_count_person",
+        description="Add a counter to count the spl50 orders placed"
+    )
+    @Metered(
+        name="order_svc:order_valocity_placed",
+        description="Add a meter to track the rate of order placement",
+        unit=MetricUnits.MINUTES,
+        absolute=true
+    )
     @Produces(MediaType.TEXT_PLAIN)
     public String processOrder() {
 
@@ -40,7 +55,7 @@ public class OrderService {
     }
 
     @GET
-    @Path("/rating")
+    @Path("/rating")    
     @Produces(MediaType.TEXT_PLAIN)
     public String getRating() {
         Integer rating = generateRandomRating(); // generate a random rating between 1-5
@@ -49,6 +64,11 @@ public class OrderService {
     }
 
     // TODO: Add a gauge to track the rating
+    @Gauge(
+        name="order_svc:rating_client",
+        description="Rating client",
+        unit=MetricUnits.NONE
+    )
     private Integer generateRandomRating() {
         return getRandom(1, 5);
     }

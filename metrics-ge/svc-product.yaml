@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: product
+    #version: v1
+  name: product
+spec:
+  ports:
+  - port: 8080
+    name: product
+    #protocol: TCP
+    #targetPort: 8080
+  selector:
+    app: product
+    #version: v1
+status:
+  loadBalancer: {}
