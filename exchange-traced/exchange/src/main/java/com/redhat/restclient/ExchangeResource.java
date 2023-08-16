@@ -11,6 +11,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
+import org.eclipse.microprofile.metrics.MetricUnits;
+import org.eclipse.microprofile.metrics.annotation.SimplyTimed;
+import org.eclipse.microprofile.metrics.annotation.Metered;
 
 @Path("/exchangeRate")
 @Produces(MediaType.APPLICATION_JSON)
@@ -35,13 +38,25 @@ public class ExchangeResource {
 
     @POST
     @Path("/historicalData")
+    @SimplyTimed(
+        name="exchange_svc:history_fetch_time",
+        description="A measure...",
+        unit=MetricUnits.MILLISECONDS
+    )
+    @Metered(
+        name="exchange_svc:history_fetch_rate",
+        description="Rate at whict...",
+        unit=MetricUnits.MINUTES,
+        absolute=true
+
+    )
     public List<Currency> getHistoricalData(String body) {
-        try {
+        /*try {
             Thread.sleep(5000);
         }
         catch(InterruptedException ie) {
             ie.printStackTrace();
-        }
+        }*/
         
         return historyService.getCurrencyExchangeRates(body);
     }
