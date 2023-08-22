@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: preference
+  namespace: resilience-retry
+spec:
+  hosts:
+    - preference
+  http:
+    - route:
+        - destination:
+            host: preference
+      retries:
+        attempts: 10
+        perTryTimeout: 1s
+        retryOn: 5xx
